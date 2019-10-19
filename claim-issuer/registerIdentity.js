@@ -5,6 +5,7 @@ const Mam = require('@iota/mam')
 const { asciiToTrytes } = require('@iota/converter')
 
 const claimGenerator = require('./claimGenerator')
+const signature = require('../signature')
 
 //Change these variables
 const pubKey = 2
@@ -19,16 +20,15 @@ const provider = 'https://nodes.devnet.iota.org'
 const mamExplorerLink = `https://mam-explorer.firebaseapp.com/?provider=${encodeURIComponent(provider)}&mode=${mode}&root=`
 const seed = 'PUEOTSEITFEVEWCWBTSIZM9NKRGJEIMXTULBACGFRQK9IMGICLBKW9TTEVSDQMGWKBXPVCBMMCXWMNPDX'
 
-// Initialise MAM State
+// Initialise MAM state
 let mamState = Mam.init(provider,seed)
 
 //First step: generate the claim
-generatedClaim = claimGenerator.generateClaim(pubKey,issuerPubKey,issuerName,owner,model,validUntil)
+const claim = claimGenerator.generateClaim(pubKey,issuerPubKey,issuerName,owner,model,validUntil)
 
-//Second step: sign claim
-secret = 'verySecretKey'
-let token = jwt.sign(generatedClaim, secret)
-
+//Second step: sign claim -> generate JSON web token
+let token = signature.signClaim(claim)
+console.log('Signed Claim - JWT:\n',token,'\n')
 
 //Third step: publish to tangle
 const publish = async packet => {

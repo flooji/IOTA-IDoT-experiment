@@ -1,6 +1,5 @@
 const Mam = require('@iota/mam')
-const { asciiToTrytes, trytesToAscii } = require('@iota/converter')
-const jwt = require('jsonwebtoken')
+const { trytesToAscii } = require('@iota/converter')
 
 const mode = 'public'
 const provider = 'https://nodes.devnet.iota.org'
@@ -20,7 +19,7 @@ const getRoot = async () => {
 }
 
 // Callback used to pass data out of the fetch
-const verifyClaim = data => {
+const verifyClaim = (data) => {
 
     jsonObj = JSON.parse(trytesToAscii(data))
     message = jsonObj.message
@@ -30,7 +29,8 @@ const verifyClaim = data => {
     //check token provided by raspberry pi
     if(token == message) {
 
-        console.log('The token do match: Valid claim\n\n')
+        console.log('The token do match.\n')
+
     } else console.log('Wrong token provided\n\n')
 }
 
