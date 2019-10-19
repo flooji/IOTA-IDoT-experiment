@@ -1,0 +1,27 @@
+{
+  "name": "iota-idot-experiment",
+  "version": "1.0.0",
+  "description": "register, manage and verify identities with IOTA",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flooji/IOTA-IDoT-experiment.git"
+  },
+  "keywords": [
+    "IOTA"
+  ],
+  "author": "flooji",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flooji/IOTA-IDoT-experiment/issues"
+  },
+  "homepage": "https://github.com/flooji/IOTA-IDoT-experiment#readme",
+  "dependencies": {
+    "@iota/mam": "^0.7.3",
+    "jsonwebtoken": "^8.5.1",
+    "uuid": "^3.3.3"
+  }
+}

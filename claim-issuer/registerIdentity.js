@@ -1,4 +1,5 @@
 
+
 //This script uploads a JWT of an Identity Claim up to the tangle
 const jwt = require('jsonwebtoken')
 
