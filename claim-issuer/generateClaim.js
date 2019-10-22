@@ -14,7 +14,7 @@ const fs = require('fs')
 
 generateClaim = function (devicePubKey,issuerAdress,issuer,deviceOwner,deviceModel,expirationDate) {
     try {
-        const UUID = uuidv4();
+        const UUID = uuidv4()
     
         jsonClaim = {
             "subject": UUID,
