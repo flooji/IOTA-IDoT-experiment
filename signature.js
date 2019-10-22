@@ -29,4 +29,3 @@ exports.verifySignature = jsonWebToken =>  {
         }
       })
     }
-

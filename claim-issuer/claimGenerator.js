@@ -30,7 +30,7 @@ generateClaim = function (devicePubKey,issuerAdress,issuer,deviceOwner,deviceMod
     
         console.log('Claim: ',jsonClaim)
 
-        fs.writeFile(`claim_${UUID}.json`, JSON.stringify(jsonClaim), function (err) {
+        fs.writeFile(`../device/claim_${UUID}.json`, JSON.stringify(jsonClaim), function (err) {
             if (err) throw err
             console.log(`File claim_${UUID}.json created successfully.`)
         })
