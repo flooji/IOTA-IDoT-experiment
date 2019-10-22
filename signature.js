@@ -1,19 +1,8 @@
 
-//sign the claim and convert it to a JSON-web token
 const jwt = require('jsonwebtoken')
-const fs = require('fs')
 
-exports.signClaim = (payload) => {
-    const privateKey = fs.readFileSync('./privateKey.pem')
-
-    let token = jwt.sign(payload, privateKey,{ algorithm: 'RS256' })
-    return token
-}
-
-exports.verifySignature = jsonWebToken =>  {
-
-    //load RSA256 public Key
-    const publicKey = fs.readFileSync('./publicKey.pem')
+//verify a JSON web token with public Key provided
+exports.verifyJWT = (jsonWebToken, publicKey) =>  {
 
     //verify token
     jwt.verify(jsonWebToken, publicKey, { algorithms: ['RS256'] }, function(error, decoded) {
@@ -22,10 +11,10 @@ exports.verifySignature = jsonWebToken =>  {
             //     name: 'JsonWebTokenError',
             //     message: 'jwt malformed'
             //   }
-            return `Unvalid signature.\nError name: ${error.name}\nError message: ${error.message}`
-
+            console.log(`Invalid signature.\nError name: ${error.name}\nError message: ${error.message}`)
         } else {
-            return `The signature is valid.\nDecoded claim: ${decoded}`
+            console.log(`The signature is valid.\nDecoded claim: ${decoded}`)
+            return decoded
         }
       })
     }

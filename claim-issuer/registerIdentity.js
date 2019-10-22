@@ -1,13 +1,10 @@
 //register Identity claim
-const jwt = require('jsonwebtoken')
-const SHA256 = require('crypto-js/sha256')
 const CryptoJS = require('crypto-js')
 
 const Mam = require('@iota/mam')
 const { asciiToTrytes } = require('@iota/converter')
 
 const ClaimGenerator = require('./claimGenerator')
-const Signature = require('../signature')
 
 //Change these variables
 //channelID = "FIORYRCHDI9INGL9NSGU9ACALOPDDVVLERCMXLAUFHIQPVGKDIXBIKBFCWZPPFKXOKCGMWHEYBWWHDFJXCSKUUDLAB"
@@ -21,6 +18,7 @@ const validUntil = "01/01/2025"
 const mode = 'public'
 const provider = 'https://nodes.devnet.iota.org'
 const mamExplorerLink = `https://mam-explorer.firebaseapp.com/?provider=${encodeURIComponent(provider)}&mode=${mode}&root=`
+
 const seed = 'PUEOTSEITFEVEWCWBTSIZM9NKRGJEIMXTULBACGFRQK9IMGICLBKW9TTEVSDQMGWKBXPVCBMMCXWMNPDX'
 
 // Initialise MAM state
@@ -53,10 +51,10 @@ const publish = async packet => {
 }
 
 //publish Hash to tangle
-registerIdentity = async (identityToken) => {
+registerIdentity = async (hash) => {
 
     const root = await publish({
-        message: identityToken,
+        message: hash,
         timestamp: (new Date()).toLocaleString()
     })
     console.log(`Verify with MAM Explorer:\n${mamExplorerLink}${root}\n`)
