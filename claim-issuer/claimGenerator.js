@@ -11,14 +11,14 @@
 
 const uuidv4 = require('uuid/v4')
 
-exports.generateClaim = function (root,issuerAddress,issuer,deviceOwner,deviceModel,expirationDate) {
+exports.generateClaim = function (devicePubKey,root,issuer,deviceOwner,deviceModel,expirationDate) {
     try {
         const UUID = uuidv4();
     
         jsonClaim = {
             "subject": UUID,
+            "devicePubKey": devicePubKey,
             "root": root,
-            "issuerAddress": issuerAddress,
             "issuer": issuer,
             "data": {
                 "deviceOwner": deviceOwner,

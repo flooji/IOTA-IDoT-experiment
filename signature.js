@@ -10,8 +10,6 @@ exports.signClaim = (payload) => {
     return token
 }
 
-
-
 exports.verifySignature = jsonWebToken =>  {
 
     //load RSA256 public Key
