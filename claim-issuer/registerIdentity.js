@@ -1,5 +1,7 @@
 //register Identity claim
 const jwt = require('jsonwebtoken')
+const SHA256 = require('crypto-js/sha256')
+const CryptoJS = require('crypto-js')
 
 const Mam = require('@iota/mam')
 const { asciiToTrytes } = require('@iota/converter')
@@ -28,7 +30,10 @@ let mamState = Mam.init(provider,seed)
 let claim = ClaimGenerator.generateClaim(pubKey,signingAddress,issuerName,owner,model,validUntil)
 
 //Second step: hash claim
-let hashedClaim = CryptoJS.HmacSHA256(claim)
+const hashedClaim = CryptoJS.SHA256(JSON.stringify(claim))
+    .toString(CryptoJS.enc.Hex)
+
+console.log('Hash of claim: ', hashedClaim)
 
 //Third step: publish to tangle
 const publish = async packet => {
@@ -47,7 +52,7 @@ const publish = async packet => {
     return message.root
 }
 
-//publish Identity Token to tangle
+//publish Hash to tangle
 registerIdentity = async (identityToken) => {
 
     const root = await publish({
