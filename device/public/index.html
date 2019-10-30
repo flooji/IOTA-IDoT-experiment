@@ -5,6 +5,8 @@
   <title>Raspi ID-Manager</title>
   <meta name="description" content="Request Identity Claim">
   <meta name="author" content="flooji">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script> 
+  <!-- include socket.io client side script -->
   <style>
     body {
       display: block;
@@ -31,11 +33,32 @@
     color: white;
   }
 
+  button:focus {
+    border: 1px solid green; 
+  }
   </style>
 </head>
 
 <body>
     <h1>Hi, try the Raspberry Identity Manager:</h1>
-    <button>Request Identity claim and verify</button>
+    <button id="request_button">Request Identity claim and verify</button>
+    <div id="output"></div>
+
+<script>
+
+    const socket = io() //load socket.io-client and connect to the host that serves the page
+    
+    window.addEventListener("load", function(){ //when page loads
+      var request = document.getElementById("request")
+      request_button.addEventListener("change", function() { //add event listener for when button changes
+        socket.emit("request")
+      })
+    })
+
+    socket.on("response", function (success,token) { //get answer from client
+      document.getElementById("output").innerHTML = token //display token
+    })
+
+    </script>
 </body>
 </html>
