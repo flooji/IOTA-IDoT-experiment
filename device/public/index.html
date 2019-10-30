@@ -33,9 +33,6 @@
     color: white;
   }
 
-  button:focus {
-    border: 1px solid green; 
-  }
   </style>
 </head>
 
@@ -56,7 +53,10 @@
     })
 
     socket.on("response", function (success,token) { //get answer from client
-      document.getElementById("output").innerHTML = token //display token
+      //verify token here ---------------- display response
+      //token query handshake possible as well
+      //verify(token)
+      document.getElementById("output").innerHTML = success //display token
     })
 
     </script>

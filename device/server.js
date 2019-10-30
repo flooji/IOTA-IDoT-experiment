@@ -3,7 +3,10 @@ const fs = require('fs')
 const io = require('socket.io')(http) //require socket.io module and pass the http object (server)
 const tokenGenerator = require('./tokenGenerator') //gets tokenGenerator.js
 
-http.listen(8080)
+const port = 8080
+http.listen(port, () => {
+  console.log(`Server running at on port ${port}.`)
+})
 
 function handler (req, res) { //create server
   fs.readFile(__dirname + '/public/index.html', function(err, data) { //read file index.html in public folder
