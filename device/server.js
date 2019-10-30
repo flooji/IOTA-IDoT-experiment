@@ -24,7 +24,8 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
   socket.on('request', function() { //get authentication request from claim verifier
     try {
-      let token = tokenGenerator.token; //get JSON Web Token
+      let token = 'Hello'
+      //let token = tokenGenerator.token; //get JSON Web Token
       socket.emit('response','Request successful', token)
     } catch(err) {
       console.log('Error:\n',err)

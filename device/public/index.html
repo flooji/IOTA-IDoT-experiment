@@ -38,7 +38,7 @@
 
 <body>
     <h1>Hi, try the Raspberry Identity Manager:</h1>
-    <button id="request_button">Request Identity claim and verify</button>
+    <button id="request">Request Identity claim and verify</button>
     <div id="output"></div>
 
 <script>
@@ -46,8 +46,8 @@
     const socket = io() //load socket.io-client and connect to the host that serves the page
     
     window.addEventListener("load", function(){ //when page loads
-      var request = document.getElementById("request")
-      request_button.addEventListener("change", function() { //add event listener for when button changes
+      var request_button = document.getElementById("request")
+        request_button.addEventListener("change", function() { //add event listener for when button changes
         socket.emit("request")
       })
     })
