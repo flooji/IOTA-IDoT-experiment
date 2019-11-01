@@ -1,4 +1,10 @@
-
+/*
+ * @Author: florence.pfammatter 
+ * @Date: 2019-11-01 11:46:26 
+ * @Last Modified by: florence.pfammatter
+ * @Last Modified time: 2019-11-01 11:50:53
+ * @Description: Register a device with an ID-claim on the IOTA tangle
+ */
 
 const CryptoJS = require('crypto-js') 
 
