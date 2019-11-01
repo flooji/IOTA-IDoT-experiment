@@ -1,4 +1,4 @@
-//register Identity claim
+
 const CryptoJS = require('crypto-js')
 
 const Mam = require('@iota/mam')

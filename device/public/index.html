@@ -47,7 +47,7 @@
     
     window.addEventListener("load", function(){ //when page loads
       var request_button = document.getElementById("request")
-        request_button.addEventListener("change", function() { //add event listener for when button changes
+        request_button.addEventListener("click", function() { //add event listener for when button changes
         socket.emit("request")
       })
     })
@@ -56,7 +56,7 @@
       //verify token here ---------------- display response
       //token query handshake possible as well
       //verify(token)
-      document.getElementById("output").innerHTML = success //display token
+      document.getElementById("output").innerHTML = success //display success
     })
 
     </script>
