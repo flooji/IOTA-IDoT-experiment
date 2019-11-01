@@ -1,14 +1,16 @@
 
-//This script produces a signed Identity-claim in form of a JSON-document and stores it locally
+// Function:   generateClaim
+// Desc:       creates claim object and stores this object in a File
+// Returns:    claim object
 
 const uuidv4 = require('uuid/v4')
 const fs = require('fs')
 
 exports.generateClaim = function (devicePubKey,issuerAdress,issuer,deviceOwner,deviceModel,expirationDate) {
-    try {
+
         const UUID = uuidv4();
     
-        jsonClaim = {
+        let claim = {
             "subject": UUID,
             "devicePubKey": devicePubKey,
             "issuerAddress": issuerAdress,
@@ -20,15 +22,12 @@ exports.generateClaim = function (devicePubKey,issuerAdress,issuer,deviceOwner,d
             "expirationDate": expirationDate
         }
     
-        console.log('Claim: ',jsonClaim)
+        console.log('Claim: ',claim)
 
-        fs.writeFile(`../device/claim_${UUID}.json`, JSON.stringify(jsonClaim), function (err) {
+        fs.writeFile(`../device/claim_${UUID}.json`, JSON.stringify(claim), function (err) {
             if (err) throw err
             console.log(`File claim_${UUID}.json created successfully.`)
         })
-    
-    } catch(err) {
-        
-        console.log('Error: ', err)
-    }
+
+        return claim
 }
