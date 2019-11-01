@@ -1,14 +1,18 @@
-const http = require('http').createServer(handler) //require http server, and create server with function handler()
+const http = require('http').createServer(handler) 
+const io = require('socket.io')(http) 
 const fs = require('fs')
-const io = require('socket.io')(http) //require socket.io module and pass the http object (server)
-const tokenGenerator = require('./tokenGenerator') //gets tokenGenerator.js
+
+//Import generated JSON Web Token
+const { token } = require('./tokenGenerator') 
 
 const port = 8080
 http.listen(port, () => {
-  console.log(`Server running at on port ${port}.`)
+  console.log(`Server running on port ${port}.`)
 })
 
-function handler (req, res) { //create server
+//Create server - see https://www.w3schools.com/nodejs/nodejs_raspberrypi_webserver_websocket.asp
+function handler (req, res) { 
+  
   fs.readFile(__dirname + '/public/index.html', function(err, data) { //read file index.html in public folder
     if (err) {
       res.writeHead(404, {'Content-Type': 'text/html'}) //display 404 on error
@@ -20,16 +24,19 @@ function handler (req, res) { //create server
   });
 }
 
-io.sockets.on('connection', function (socket) {// WebSocket Connection
-
-  socket.on('request', function() { //get authentication request from claim verifier
+// WebSocket Connection
+io.sockets.on('connection', function (socket) {
+  
+  //get authentication request from claim verifier
+  socket.on('request', function() { 
+    
     try {
-      let token = 'Hello'
-      //let token = tokenGenerator.token; //get JSON Web Token
-      socket.emit('response','Request successful', token)
+      let JWT = token //get JSON Web Token
+      socket.emit('response','Request successful', JWT)   
+    
     } catch(err) {
       console.log('Error:\n',err)
       socket.emit('response',`Request failed with ${err}`) 
     }
-})
+  })
 })

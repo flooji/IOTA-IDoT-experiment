@@ -1,16 +1,28 @@
-const Mam = require('@iota/mam')
-const { trytesToAscii } = require('@iota/converter')
+/*
+ * @Author: florence.pfammatter 
+ * @Date: 2019-11-01 11:46:26 
+ * @Last Modified by: florence.pfammatter
+ * @Last Modified time: 2019-11-01 22:05:00
+ * @Description: Verify if a provided claim is valid by comparing it to the hashed claim on the IOTA tangle
+ */
+
 const CryptoJS = require('crypto-js')
 const fs = require('fs')
 
-const Signature = require('../signature')
+//Require Mam package from iota.js
+const Mam = require('@iota/mam')
+const { trytesToAscii } = require('@iota/converter')
 
+//Function to verify JSON Web Token 
+const { verifyJWT } = require('../signature')
+
+//MAM setup 
 const mode = 'public'
 const provider = 'https://nodes.devnet.iota.org'
 
 const mamExplorerLink = `https://mam-explorer.firebaseapp.com/?provider=${encodeURIComponent(provider)}&mode=${mode}&root=`
 
-// Initialise MAM State
+// Initialise MAM State object
 let mamState = Mam.init(provider)
 
 //Get token from raspberry pi
@@ -21,7 +33,7 @@ const publicKey = fs.readFileSync('publicKey.pem')
 
 //Check signature is valid
 //only continue if signature is valid
-const isValid = Signature.verifyJWT(token,publicKey)
+const isValid = verifyJWT(token, publicKey)
 
 if(isValid) {
   
@@ -30,41 +42,42 @@ if(isValid) {
     .toString(CryptoJS.enc.Hex)
   console.log('Hashed claim: ',hashDecoded)
     
-    
-  //get the root 
-  const getRoot = async () => {
-    let rootAddress = "FIORYRCHDI9INGL9NSGU9ACALOPDDVVLERCMXLAUFHIQPVGKDIXBIKBFCWZPPFKXOKCGMWHEYBWWHDFJX"
-    return rootAddress
+  const getRoot = () => {
+    //root is Channel ID
+    let root = "FIORYRCHDI9INGL9NSGU9ACALOPDDVVLERCMXLAUFHIQPVGKDIXBIKBFCWZPPFKXOKCGMWHEYBWWHDFJX"
+    return root
   }
 
+
   // Callback used to pass data out of the fetch
-  const verifyClaim = (data) => {
+  const verifyClaim = (data,root) => {
 
-      jsonObj = JSON.parse(trytesToAscii(data))
-      message = jsonObj.message
+    
 
-      console.log('Fetched and parsed', jsonObj, '\n')
+    jsonObj = JSON.parse(trytesToAscii(data))
+    message = jsonObj.message
 
-      //Check token provided by raspberry pi
-      if(hashDecoded == message) {
+    console.log('Fetched and parsed', jsonObj, '\n')
 
-          console.log('The hashes do match.\n')
+    //Check token provided by raspberry pi
+    if(hashDecoded == message) {
+
+        console.log('The hashes do match.\n')
 
     } else console.log('Wrong claim provided\n\n')
   }
 
   //Get the message from the tangle
-  getRoot()
-  .then(async root => {
+  
+  getRoot.then(async root => {
 
     // Output asyncronously using "verifyClaim" callback function
     await Mam.fetch(root, mode, null, verifyClaim)
 
   })
 
-} else console.log('Program aborted')
- 
+} else {
+  
+  console.log('Program aborted')
 
- 
-
-
+}

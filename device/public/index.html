@@ -5,60 +5,34 @@
   <title>Raspi ID-Manager</title>
   <meta name="description" content="Request Identity Claim">
   <meta name="author" content="flooji">
+  <link rel="./main.css" type="text/css" href="style.css" media="screen" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script> 
   <!-- include socket.io client side script -->
-  <style>
-    body {
-      display: block;
-      text-align: center;
-    }
-    button {
-    background-color: #008CBA; /* blue */
-    border: none;
-    border-radius: 8px;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    width: 50%;
-    margin-top: 30px;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-  }
-
-  button:hover {
-    background-color: #4CAF50; /* Green */
-    color: white;
-  }
-
-  </style>
 </head>
 
 <body>
     <h1>Hi, try the Raspberry Identity Manager:</h1>
     <button id="request">Request Identity claim and verify</button>
     <div id="output"></div>
-
-<script>
-
-    const socket = io() //load socket.io-client and connect to the host that serves the page
     
-    window.addEventListener("load", function(){ //when page loads
-      var request_button = document.getElementById("request")
-        request_button.addEventListener("click", function() { //add event listener for when button changes
+    <script>
+      import {  } from "module";
+      const socket = io() //load socket.io-client and connect to the host that serves the page
+      
+      window.addEventListener("load", function(){ //when page loads
+        let requestButton = document.getElementById("request")
+
+        requestButton.addEventListener("click", function() { //add event listener for when button changes
         socket.emit("request")
+        })
       })
-    })
 
-    socket.on("response", function (success,token) { //get answer from client
-      //verify token here ---------------- display response
-      //token query handshake possible as well
-      //verify(token)
-      document.getElementById("output").innerHTML = success //display success
-    })
-
+      socket.on("response", function (success,token) { //get answer from client
+        //verify token here ---------------- display response
+        //token query handshake possible as well
+        //verify(token)
+        document.getElementById("output").innerHTML = success //display success
+      })
     </script>
 </body>
 </html>
